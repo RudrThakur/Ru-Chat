@@ -1,16 +1,80 @@
-import axios from 'axios'
 import React, { Component } from 'react'
+import axios from 'axios';
+import { connect } from "react-redux";
 
 class Register extends Component {
     constructor (props) {
         super(props)
-        this.state = {
 
+        this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.handleInput = this.handleInput.bind(this);
+
+        this.state = {
+            loggedIn: false,
+            registerForm: {
+                name: '',
+                email: '',
+                password: '',
+                errors: {}
+            }
         }
     }
 
-    componentDidMount () {
+    handleInput (event) {
+        event.preventDefault();
 
+        const fieldName = event.target.name;
+
+        const fieldValue = event.target.value;
+
+        this.setState(
+            {
+                registerForm: {
+                    ...this.state.registerForm,
+                    [fieldName]: fieldValue,
+                }
+            }
+        );
+
+    }
+
+     handleSubmit (event) {
+        event.preventDefault();
+
+        // Configure Data
+        const data = {
+            name : this.state.registerForm.name,
+            email: this.state.registerForm.email,
+            password: this.state.registerForm.password
+        };
+
+        axios.post('/api/register', data).then(
+            (response) => {
+                // Show Success
+
+                this.props.registerUser(response.data.user);
+
+            }
+        ).catch(
+            (error) => {
+                // Show Error
+
+                this.setState({
+                   registerForm: {
+                       ...this.state.registerForm,
+                        errors: error.response.data
+                   }
+                });
+
+                console.log(this.state.registerForm.errors);
+            }
+        );
+
+    }
+
+    componentDidMount () {
+        console.log(this.props.loggedIn);
     }
 
     render () {
@@ -22,25 +86,35 @@ class Register extends Component {
                             <div className='card-header'>Register</div>
                             <div className='card-body'>
 
-                                <form>
+                                <form method="POST" onSubmit={this.handleSubmit}>
                                     <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">Name</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp" placeholder="Enter email" />
+                                        <label htmlFor="name">Name</label>
+                                        <input type="text" className="form-control" id="name"
+                                               name="name"
+                                               onChange={this.handleInput}
+                                               aria-describedby="name" placeholder="Enter Name" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">Email address</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp" placeholder="Enter email" />
+                                        <label htmlFor="email">Email address</label>
+                                        <input type="email" className="form-control" id="email"
+                                               name="email"
+                                               onChange={this.handleInput}
+                                               aria-describedby="email" placeholder="Enter email" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="exampleInputPassword1">Password</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1"
+                                        <label htmlFor="password">Password</label>
+                                        <input type="password" className="form-control" id="password"
+                                               name="password"
+                                               onChange={this.handleInput}
                                                placeholder="Password" />
                                     </div>
 
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>
+
+                                <div className="mt-4">
+                                    <a href="/login">Login Here</a>
+                                </div>
 
                             </div>
                         </div>
@@ -51,4 +125,17 @@ class Register extends Component {
     }
 }
 
-export default Register
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.auth.loggedIn,
+        user: state.auth.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        registerUser: (user) => dispatch({type: "REGISTER", payload: user})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

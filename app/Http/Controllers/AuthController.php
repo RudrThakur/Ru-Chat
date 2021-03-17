@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\UserRepositoryInterface;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Models\User;
 use Exception;
+use Illuminate\Http\Request;
 
-class RegisterController extends Controller
+class AuthController extends Controller
 {
 
-    private $userRepositoryInterface;
+    private UserRepositoryInterface $userRepositoryInterface;
 
     /**
      * RegisterController constructor.
@@ -59,5 +57,27 @@ class RegisterController extends Controller
             );
         }
 
+    }
+
+    public function login(Request $request)
+    {
+        try {
+
+        }
+
+        catch(Exception $e) {
+
+        }
+    }
+
+    public function verifyAccount(Request $request)
+    {
+        try {
+
+        }
+
+        catch(Exception $e) {
+
+        }
     }
 }

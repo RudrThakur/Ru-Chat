@@ -40,6 +40,10 @@ class Login extends Component {
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>
 
+                                <div className="mt-4">
+                                    <a href="/register">Register Here</a>
+                                </div>
+
                             </div>
                         </div>
                     </div>
