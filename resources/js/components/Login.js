@@ -1,8 +1,8 @@
 import axios from 'axios'
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 class Login extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             loginForm: {
@@ -12,11 +12,11 @@ class Login extends Component {
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
 
     }
 
-    render () {
+    render() {
         return (
             <div className='container py-4'>
                 <div className='row justify-content-center'>
@@ -30,12 +30,12 @@ class Login extends Component {
                                         <label htmlFor="email">Email address</label>
                                         <input type="email" className="form-control" id="email"
 
-                                               placeholder="Enter email" required />
+                                               placeholder="Enter email" required/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="password">Password</label>
                                         <input type="password" className="form-control" id="password"
-                                               placeholder="Password" />
+                                               placeholder="Password"/>
                                     </div>
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import axios from 'axios';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 class Register extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,7 +21,7 @@ class Register extends Component {
         }
     }
 
-    handleInput (event) {
+    handleInput(event) {
         event.preventDefault();
 
         const fieldName = event.target.name;
@@ -39,12 +39,12 @@ class Register extends Component {
 
     }
 
-     handleSubmit (event) {
+    handleSubmit(event) {
         event.preventDefault();
 
         // Configure Data
         const data = {
-            name : this.state.registerForm.name,
+            name: this.state.registerForm.name,
             email: this.state.registerForm.email,
             password: this.state.registerForm.password
         };
@@ -61,10 +61,10 @@ class Register extends Component {
                 // Show Error
 
                 this.setState({
-                   registerForm: {
-                       ...this.state.registerForm,
+                    registerForm: {
+                        ...this.state.registerForm,
                         errors: error.response.data
-                   }
+                    }
                 });
 
                 console.log(this.state.registerForm.errors);
@@ -73,11 +73,11 @@ class Register extends Component {
 
     }
 
-    componentDidMount () {
-        console.log(this.props.loggedIn);
+    componentDidMount() {
+
     }
 
-    render () {
+    render() {
         return (
             <div className='container py-4'>
                 <div className='row justify-content-center'>
@@ -92,21 +92,21 @@ class Register extends Component {
                                         <input type="text" className="form-control" id="name"
                                                name="name"
                                                onChange={this.handleInput}
-                                               aria-describedby="name" placeholder="Enter Name" />
+                                               aria-describedby="name" placeholder="Enter Name"/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="email">Email address</label>
                                         <input type="email" className="form-control" id="email"
                                                name="email"
                                                onChange={this.handleInput}
-                                               aria-describedby="email" placeholder="Enter email" />
+                                               aria-describedby="email" placeholder="Enter email"/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="password">Password</label>
                                         <input type="password" className="form-control" id="password"
                                                name="password"
                                                onChange={this.handleInput}
-                                               placeholder="Password" />
+                                               placeholder="Password"/>
                                     </div>
 
                                     <button type="submit" className="btn btn-primary">Submit</button>
