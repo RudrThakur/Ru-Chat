@@ -16,6 +16,7 @@ class Register extends Component {
                 name: '',
                 email: '',
                 password: '',
+                message: '',
                 errors: {}
             }
         }
@@ -53,7 +54,16 @@ class Register extends Component {
             (response) => {
                 // Show Success
 
+                this.setState({
+                    registerForm: {
+                        ...this.state.registerForm,
+                        message: response.data.message
+                    }
+                });
+
                 this.props.registerUser(response.data.user);
+
+                this.props.hideAlert();
 
             }
         ).catch(
@@ -63,11 +73,13 @@ class Register extends Component {
                 this.setState({
                     registerForm: {
                         ...this.state.registerForm,
-                        errors: error.response.data
+                        errors: error.response.data.errors,
+                        message: error.response.data.message
                     }
                 });
 
-                console.log(this.state.registerForm.errors);
+                this.props.showAlert({ message: this.state.registerForm.message, errors: this.state.registerForm.errors });
+
             }
         );
 
@@ -86,6 +98,17 @@ class Register extends Component {
                             <div className='card-header'>Register</div>
                             <div className='card-body'>
 
+                                {this.props.message &&
+                                <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Oops! </strong> {this.props.message}
+                                    <button type="button" className="close" data-dismiss="alert" aria-label="Close"
+                                    onClick={this.props.hideAlert}
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>}
+
+
                                 <form method="POST" onSubmit={this.handleSubmit}>
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
@@ -93,13 +116,22 @@ class Register extends Component {
                                                name="name"
                                                onChange={this.handleInput}
                                                aria-describedby="name" placeholder="Enter Name"/>
+                                        {
+                                            this.props.errors.name &&
+                                            <div className="text-danger"> {this.props.errors.name} </div>
+                                        }
                                     </div>
+
                                     <div className="form-group">
                                         <label htmlFor="email">Email address</label>
                                         <input type="email" className="form-control" id="email"
                                                name="email"
                                                onChange={this.handleInput}
                                                aria-describedby="email" placeholder="Enter email"/>
+                                        {
+                                            this.props.errors.email &&
+                                            <div className="text-danger"> {this.props.errors.email} </div>
+                                        }
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="password">Password</label>
@@ -107,6 +139,10 @@ class Register extends Component {
                                                name="password"
                                                onChange={this.handleInput}
                                                placeholder="Password"/>
+                                        {
+                                            this.props.errors.password &&
+                                            <div className="text-danger"> {this.props.errors.password} </div>
+                                        }
                                     </div>
 
                                     <button type="submit" className="btn btn-primary">Submit</button>
@@ -128,13 +164,17 @@ class Register extends Component {
 const mapStateToProps = (state) => {
     return {
         loggedIn: state.auth.loggedIn,
-        user: state.auth.user
+        user: state.auth.user,
+        message: state.alert.message,
+        errors: state.alert.errors
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        registerUser: (user) => dispatch({type: "REGISTER", payload: user})
+        registerUser: (user) => dispatch({type: "REGISTER", payload: user}),
+        showAlert: (alert) => dispatch({type: "SHOW_ALERT", payload: alert}),
+        hideAlert: () => dispatch({type: "HIDE_ALERT"})
     }
 }
 

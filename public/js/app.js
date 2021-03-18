@@ -2984,6 +2984,7 @@ var Register = /*#__PURE__*/function (_Component) {
         name: '',
         email: '',
         password: '',
+        message: '',
         errors: {}
       }
     };
@@ -3014,16 +3015,28 @@ var Register = /*#__PURE__*/function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/register', data).then(function (response) {
         // Show Success
+        _this2.setState({
+          registerForm: _objectSpread(_objectSpread({}, _this2.state.registerForm), {}, {
+            message: response.data.message
+          })
+        });
+
         _this2.props.registerUser(response.data.user);
+
+        _this2.props.hideAlert();
       })["catch"](function (error) {
         // Show Error
         _this2.setState({
           registerForm: _objectSpread(_objectSpread({}, _this2.state.registerForm), {}, {
-            errors: error.response.data
+            errors: error.response.data.errors,
+            message: error.response.data.message
           })
         });
 
-        console.log(_this2.state.registerForm.errors);
+        _this2.props.showAlert({
+          message: _this2.state.registerForm.message,
+          errors: _this2.state.registerForm.errors
+        });
       });
     }
   }, {
@@ -3045,7 +3058,23 @@ var Register = /*#__PURE__*/function (_Component) {
                 children: "Register"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "card-body",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+                children: [this.props.message && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "alert alert-warning alert-dismissible fade show",
+                  role: "alert",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
+                    children: "Oops! "
+                  }), " ", this.props.message, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    type: "button",
+                    className: "close",
+                    "data-dismiss": "alert",
+                    "aria-label": "Close",
+                    onClick: this.props.hideAlert,
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      "aria-hidden": "true",
+                      children: "\xD7"
+                    })
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
                   method: "POST",
                   onSubmit: this.handleSubmit,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -3061,6 +3090,9 @@ var Register = /*#__PURE__*/function (_Component) {
                       onChange: this.handleInput,
                       "aria-describedby": "name",
                       placeholder: "Enter Name"
+                    }), this.props.errors.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "text-danger",
+                      children: [" ", this.props.errors.name, " "]
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
@@ -3075,6 +3107,9 @@ var Register = /*#__PURE__*/function (_Component) {
                       onChange: this.handleInput,
                       "aria-describedby": "email",
                       placeholder: "Enter email"
+                    }), this.props.errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "text-danger",
+                      children: [" ", this.props.errors.email, " "]
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
@@ -3088,6 +3123,9 @@ var Register = /*#__PURE__*/function (_Component) {
                       name: "password",
                       onChange: this.handleInput,
                       placeholder: "Password"
+                    }), this.props.errors.password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "text-danger",
+                      children: [" ", this.props.errors.password, " "]
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     type: "submit",
@@ -3115,7 +3153,9 @@ var Register = /*#__PURE__*/function (_Component) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     loggedIn: state.auth.loggedIn,
-    user: state.auth.user
+    user: state.auth.user,
+    message: state.alert.message,
+    errors: state.alert.errors
   };
 };
 
@@ -3125,6 +3165,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch({
         type: "REGISTER",
         payload: user
+      });
+    },
+    showAlert: function showAlert(alert) {
+      return dispatch({
+        type: "SHOW_ALERT",
+        payload: alert
+      });
+    },
+    hideAlert: function hideAlert() {
+      return dispatch({
+        type: "HIDE_ALERT"
       });
     }
   };
@@ -3159,12 +3210,58 @@ __webpack_require__.r(__webpack_exports__);
 var persistConfig = {
   key: 'root',
   storage: redux_persist_lib_storage__WEBPACK_IMPORTED_MODULE_2__.default,
-  stateReconciler: redux_persist_lib_stateReconciler_autoMergeLevel2__WEBPACK_IMPORTED_MODULE_3__.default // see "Merge Process" section for details.
-
+  stateReconciler: redux_persist_lib_stateReconciler_autoMergeLevel2__WEBPACK_IMPORTED_MODULE_3__.default
 };
 var pReducer = (0,redux_persist__WEBPACK_IMPORTED_MODULE_1__.persistReducer)(persistConfig, _reducers_RootReducer__WEBPACK_IMPORTED_MODULE_0__.default);
 var store = (0,redux__WEBPACK_IMPORTED_MODULE_4__.createStore)(pReducer);
 var persistor = (0,redux_persist__WEBPACK_IMPORTED_MODULE_1__.persistStore)(store);
+
+/***/ }),
+
+/***/ "./resources/js/store/reducers/AlertReducer.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/reducers/AlertReducer.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var initialState = {
+  visibility: false,
+  message: '',
+  errors: {}
+};
+
+var AlertReducer = function AlertReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case "SHOW_ALERT":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        visibility: true,
+        message: action.payload.message,
+        errors: action.payload.errors
+      });
+
+    case "HIDE_ALERT":
+      return initialState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AlertReducer);
 
 /***/ }),
 
@@ -3230,12 +3327,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _AuthReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthReducer */ "./resources/js/store/reducers/AuthReducer.js");
+/* harmony import */ var _AlertReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AlertReducer */ "./resources/js/store/reducers/AlertReducer.js");
 
 
-var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_1__.combineReducers)({
-  auth: _AuthReducer__WEBPACK_IMPORTED_MODULE_0__.default
+
+var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
+  auth: _AuthReducer__WEBPACK_IMPORTED_MODULE_0__.default,
+  alert: _AlertReducer__WEBPACK_IMPORTED_MODULE_1__.default
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rootReducer);
 
