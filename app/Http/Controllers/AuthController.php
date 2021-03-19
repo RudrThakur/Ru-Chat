@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\UserRepositoryInterface;
 use Exception;
@@ -57,11 +58,11 @@ class AuthController extends Controller
 
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $loginRequest)
     {
         try {
 
-            $credentials = $request->only('email', 'password');
+            $credentials = $loginRequest->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
                 

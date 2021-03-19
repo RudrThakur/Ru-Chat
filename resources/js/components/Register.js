@@ -11,13 +11,10 @@ class Register extends Component {
         this.handleInput = this.handleInput.bind(this);
 
         this.state = {
-            loggedIn: false,
             registerForm: {
                 name: '',
                 email: '',
                 password: '',
-                message: '',
-                errors: {}
             }
         }
     }
@@ -40,6 +37,10 @@ class Register extends Component {
 
     }
 
+    resetRegisterForm() {
+        document.getElementById("register-form").reset();
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -54,32 +55,23 @@ class Register extends Component {
             (response) => {
                 // Show Success
 
-                this.setState({
-                    registerForm: {
-                        ...this.state.registerForm,
-                        message: response.data.message
-                    }
-                });
-
                 this.props.registerUser(response.data.user);
 
                 this.props.hideAlert();
+
+                this.resetRegisterForm();
+
+                this.props.history.push('/');
 
             }
         ).catch(
             (error) => {
                 // Show Error
 
-                this.setState({
-                    registerForm: {
-                        ...this.state.registerForm,
-                        errors: error.response.data.errors,
-                        message: error.response.data.message
-                    }
+                this.props.showAlert({
+                    message: error.response.data.message,
+                    errors: error.response.data.errors,
                 });
-
-                this.props.showAlert({ message: this.state.registerForm.message, errors: this.state.registerForm.errors });
-
             }
         );
 
@@ -102,14 +94,14 @@ class Register extends Component {
                                 <div className="alert alert-warning alert-dismissible fade show" role="alert">
                                     <strong>Oops! </strong> {this.props.message}
                                     <button type="button" className="close" data-dismiss="alert" aria-label="Close"
-                                    onClick={this.props.hideAlert}
+                                            onClick={this.props.hideAlert}
                                     >
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>}
 
 
-                                <form method="POST" onSubmit={this.handleSubmit}>
+                                <form id="register-form" method="POST" onSubmit={this.handleSubmit}>
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
                                         <input type="text" className="form-control" id="name"
@@ -149,7 +141,7 @@ class Register extends Component {
                                 </form>
 
                                 <div className="mt-4">
-                                    <a href="/login">Login Here</a>
+                                    <a href='/login'>Login Here</a>
                                 </div>
 
                             </div>
@@ -165,16 +157,16 @@ const mapStateToProps = (state) => {
     return {
         loggedIn: state.auth.loggedIn,
         user: state.auth.user,
-        message: state.alert.message,
-        errors: state.alert.errors
+        message: state.alert.register.message,
+        errors: state.alert.register.errors
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         registerUser: (user) => dispatch({type: "REGISTER", payload: user}),
-        showAlert: (alert) => dispatch({type: "SHOW_ALERT", payload: alert}),
-        hideAlert: () => dispatch({type: "HIDE_ALERT"})
+        showAlert: (alert) => dispatch({type: "SHOW_REGISTER_ALERT", payload: alert}),
+        hideAlert: () => dispatch({type: "HIDE_REGISTER_ALERT"})
     }
 }
 

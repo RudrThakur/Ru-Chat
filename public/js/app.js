@@ -2797,8 +2797,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2825,6 +2832,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Login = /*#__PURE__*/function (_Component) {
   _inherits(Login, _Component);
 
@@ -2836,6 +2844,8 @@ var Login = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, Login);
 
     _this = _super.call(this, props);
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
     _this.state = {
       loginForm: {
         email: '',
@@ -2846,56 +2856,126 @@ var Login = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(Login, [{
+    key: "handleInput",
+    value: function handleInput(event) {
+      event.preventDefault();
+      var fieldName = event.target.name;
+      var fieldValue = event.target.value;
+      this.setState({
+        loginForm: _objectSpread(_objectSpread({}, this.state.loginForm), {}, _defineProperty({}, fieldName, fieldValue))
+      });
+    }
+  }, {
+    key: "resetLoginForm",
+    value: function resetLoginForm() {
+      document.getElementById("login-form").reset();
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      event.preventDefault(); // Configure Data
+
+      var data = {
+        email: this.state.loginForm.email,
+        password: this.state.loginForm.password
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/login', data).then(function (response) {
+        // Show Success
+        _this2.props.loginUser(response.data.user);
+
+        _this2.props.hideAlert();
+
+        _this2.resetLoginForm();
+
+        _this2.props.history.push('/');
+      })["catch"](function (error) {
+        // Show Error
+        _this2.props.showAlert({
+          message: error.response.data.message,
+          errors: error.response.data.errors
+        });
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {}
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "container py-4",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "row justify-content-center",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "col-md-8",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "card",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                 className: "card-header",
                 children: "Login"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "card-body",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                children: [this.props.message && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "alert alert-warning alert-dismissible fade show",
+                  role: "alert",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
+                    children: "Oops! "
+                  }), " ", this.props.message, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    type: "button",
+                    className: "close",
+                    "data-dismiss": "alert",
+                    "aria-label": "Close",
+                    onClick: this.props.hideAlert,
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      "aria-hidden": "true",
+                      children: "\xD7"
+                    })
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+                  id: "login-form",
+                  onSubmit: this.handleSubmit,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                       htmlFor: "email",
                       children: "Email address"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                       type: "email",
                       className: "form-control",
                       id: "email",
-                      placeholder: "Enter email",
-                      required: true
+                      name: "email",
+                      onChange: this.handleInput,
+                      placeholder: "Enter email"
+                    }), this.props.errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "text-danger",
+                      children: [" ", this.props.errors.email, " "]
                     })]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                       htmlFor: "password",
                       children: "Password"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                       type: "password",
                       className: "form-control",
                       id: "password",
+                      name: "password",
+                      onChange: this.handleInput,
                       placeholder: "Password"
+                    }), this.props.errors.password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "text-danger",
+                      children: [" ", this.props.errors.password, " "]
                     })]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     type: "submit",
                     className: "btn btn-primary",
                     children: "Submit"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                   className: "mt-4",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
                     href: "/register",
                     children: "Register Here"
                   })
@@ -2911,7 +2991,38 @@ var Login = /*#__PURE__*/function (_Component) {
   return Login;
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Login);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedIn: state.auth.loggedIn,
+    user: state.auth.user,
+    message: state.alert.login.message,
+    errors: state.alert.login.errors
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    loginUser: function loginUser(user) {
+      return dispatch({
+        type: "LOGIN",
+        payload: user
+      });
+    },
+    showAlert: function showAlert(alert) {
+      return dispatch({
+        type: "SHOW_LOGIN_ALERT",
+        payload: alert
+      });
+    },
+    hideAlert: function hideAlert() {
+      return dispatch({
+        type: "HIDE_LOGIN_ALERT"
+      });
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps, mapDispatchToProps)(Login));
 
 /***/ }),
 
@@ -2979,13 +3090,10 @@ var Register = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
     _this.state = {
-      loggedIn: false,
       registerForm: {
         name: '',
         email: '',
-        password: '',
-        message: '',
-        errors: {}
+        password: ''
       }
     };
     return _this;
@@ -3002,6 +3110,11 @@ var Register = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "resetRegisterForm",
+    value: function resetRegisterForm() {
+      document.getElementById("register-form").reset();
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(event) {
       var _this2 = this;
@@ -3015,27 +3128,18 @@ var Register = /*#__PURE__*/function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/register', data).then(function (response) {
         // Show Success
-        _this2.setState({
-          registerForm: _objectSpread(_objectSpread({}, _this2.state.registerForm), {}, {
-            message: response.data.message
-          })
-        });
-
         _this2.props.registerUser(response.data.user);
 
         _this2.props.hideAlert();
+
+        _this2.resetRegisterForm();
+
+        _this2.props.history.push('/');
       })["catch"](function (error) {
         // Show Error
-        _this2.setState({
-          registerForm: _objectSpread(_objectSpread({}, _this2.state.registerForm), {}, {
-            errors: error.response.data.errors,
-            message: error.response.data.message
-          })
-        });
-
         _this2.props.showAlert({
-          message: _this2.state.registerForm.message,
-          errors: _this2.state.registerForm.errors
+          message: error.response.data.message,
+          errors: error.response.data.errors
         });
       });
     }
@@ -3075,6 +3179,7 @@ var Register = /*#__PURE__*/function (_Component) {
                     })
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+                  id: "register-form",
                   method: "POST",
                   onSubmit: this.handleSubmit,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -3154,8 +3259,8 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     loggedIn: state.auth.loggedIn,
     user: state.auth.user,
-    message: state.alert.message,
-    errors: state.alert.errors
+    message: state.alert.register.message,
+    errors: state.alert.register.errors
   };
 };
 
@@ -3169,13 +3274,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     showAlert: function showAlert(alert) {
       return dispatch({
-        type: "SHOW_ALERT",
+        type: "SHOW_REGISTER_ALERT",
         payload: alert
       });
     },
     hideAlert: function hideAlert() {
       return dispatch({
-        type: "HIDE_ALERT"
+        type: "HIDE_REGISTER_ALERT"
       });
     }
   };
@@ -3236,9 +3341,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var initialState = {
-  visibility: false,
-  message: '',
-  errors: {}
+  login: {
+    message: '',
+    errors: {}
+  },
+  register: {
+    message: '',
+    errors: {}
+  }
 };
 
 var AlertReducer = function AlertReducer() {
@@ -3246,15 +3356,37 @@ var AlertReducer = function AlertReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case "SHOW_ALERT":
+    case "SHOW_LOGIN_ALERT":
       return _objectSpread(_objectSpread({}, state), {}, {
-        visibility: true,
-        message: action.payload.message,
-        errors: action.payload.errors
+        login: {
+          message: action.payload.message,
+          errors: action.payload.errors
+        }
       });
 
-    case "HIDE_ALERT":
-      return initialState;
+    case "HIDE_LOGIN_ALERT":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        login: {
+          message: '',
+          errors: {}
+        }
+      });
+
+    case "SHOW_REGISTER_ALERT":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        register: {
+          message: action.payload.message,
+          errors: action.payload.errors
+        }
+      });
+
+    case "HIDE_REGISTER_ALERT":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        register: {
+          message: '',
+          errors: {}
+        }
+      });
 
     default:
       return state;
