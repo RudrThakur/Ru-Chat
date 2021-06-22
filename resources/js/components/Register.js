@@ -109,6 +109,7 @@ class Register extends Component {
                                                onChange={this.handleInput}
                                                aria-describedby="name" placeholder="Enter Name"/>
                                         {
+                                            this.props.errors &&
                                             this.props.errors.name &&
                                             <div className="text-danger"> {this.props.errors.name} </div>
                                         }
@@ -121,6 +122,7 @@ class Register extends Component {
                                                onChange={this.handleInput}
                                                aria-describedby="email" placeholder="Enter email"/>
                                         {
+                                            this.props.errors &&
                                             this.props.errors.email &&
                                             <div className="text-danger"> {this.props.errors.email} </div>
                                         }
@@ -132,6 +134,7 @@ class Register extends Component {
                                                onChange={this.handleInput}
                                                placeholder="Password"/>
                                         {
+                                            this.props.errors &&
                                             this.props.errors.password &&
                                             <div className="text-danger"> {this.props.errors.password} </div>
                                         }

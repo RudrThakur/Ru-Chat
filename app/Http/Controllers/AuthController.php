@@ -41,23 +41,37 @@ class AuthController extends Controller
                     'user' => $user,
                     'message' => 'User Created Successfully',
 
-                ]  , 200
+                ], 200
             );
 
-        }
+        } catch (Exception $e) {
 
-        catch(Exception $e) {
-            return response()->json(
-                [
-                    'message' => 'Something Went Wrong',
-                    'error' => $e->getMessage()
+            if ($e->getCode() == 23000) {
+                return response()->json(
+                    [
+                        'message' => 'Account Already Exists',
+                        'error' => $e->getMessage()
 
-                ]  , 500
-            );
+                    ], 500
+                );
+            } else {
+                return response()->json(
+                    [
+                        'message' => 'Something Went Wrong',
+                        'error' => $e->getMessage()
+
+                    ], 500
+                );
+            }
+
         }
 
     }
 
+    /**
+     * @param \App\Http\Requests\LoginRequest $loginRequest
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $loginRequest)
     {
         try {
@@ -65,10 +79,10 @@ class AuthController extends Controller
             $credentials = $loginRequest->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
-                
-                $request->session()->regenerate();
-                
-                $user = $this->userRepositoryInterface->findByEmail($request->email);
+
+                $loginRequest->session()->regenerate();
+
+                $user = $this->userRepositoryInterface->findByEmail($loginRequest->email);
 
                 return response()->json(
                     [
@@ -76,9 +90,7 @@ class AuthController extends Controller
                         'message' => 'Login Successful'
                     ], 200
                 );
-            }
-
-            else {
+            } else {
                 return response()->json(
                     [
                         'message' => 'Invalid Credentials'
@@ -86,22 +98,24 @@ class AuthController extends Controller
                 );
             }
 
-        }
-
-        catch(Exception $e) {
+        } catch (Exception $e) {
 
             return response()->json(
                 [
                     'message' => 'Something Went Wrong',
                     'error' => $e->getMessage()
 
-                ]  , 500
+                ], 500
             );
 
         }
     }
 
-    public function logout()
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
     {
         try {
 
@@ -117,28 +131,27 @@ class AuthController extends Controller
                 ], 200
             );
 
-        }
-
-        catch(Exception $e) {
+        } catch (Exception $e) {
 
             return response()->json(
                 [
                     'message' => 'Something Went Wrong',
                     'error' => $e->getMessage()
 
-                ]  , 500
+                ], 500
             );
 
         }
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     */
     public function verifyAccount(Request $request)
     {
         try {
 
-        }
-
-        catch(Exception $e) {
+        } catch (Exception $e) {
 
         }
     }

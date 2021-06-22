@@ -109,6 +109,7 @@ class Login extends Component {
                                                onChange={this.handleInput}
                                                placeholder="Enter email"/>
                                         {
+                                            this.props.errors &&
                                             this.props.errors.email &&
                                             <div className="text-danger"> {this.props.errors.email} </div>
                                         }
@@ -120,6 +121,7 @@ class Login extends Component {
                                                onChange={this.handleInput}
                                                placeholder="Password"/>
                                         {
+                                            this.props.errors &&
                                             this.props.errors.password &&
                                             <div className="text-danger"> {this.props.errors.password} </div>
                                         }

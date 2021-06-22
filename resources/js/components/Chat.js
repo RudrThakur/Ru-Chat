@@ -1,19 +1,33 @@
 import axios from 'axios'
-import React, { Component } from 'react'
+import React, {Component} from 'react'
+import {connect} from "react-redux";
 
 class Chat extends Component {
-    constructor (props) {
-        super(props)
-        this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {};
 
-        }
+        this.initChats = this.initChats.bind(this);
+
+        this.initContacts = this.initContacts.bind(this);
     }
 
-    componentDidMount () {
+    initContacts() {
 
     }
 
-    render () {
+    initChats() {
+
+    }
+
+    componentDidMount() {
+
+        this.initContacts();
+        this.initChats();
+
+    }
+
+    render() {
         return (
 
             <main className="content">
@@ -25,7 +39,7 @@ class Chat extends Component {
                                 <div className="px-4 d-none d-md-block">
                                     <div className="d-flex align-items-center">
                                         <div className="flex-grow-1">
-                                            <input type="text" className="form-control my-3" placeholder="Search..." />
+                                            <input type="text" className="form-control my-3" placeholder="Search..."/>
                                         </div>
                                     </div>
                                 </div>
@@ -35,98 +49,16 @@ class Chat extends Component {
                                     <div className="d-flex align-items-start">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar5.png"
                                              className="rounded-circle mr-1" alt="Vanessa Tucker" width="40"
-                                             height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Vanessa Tucker
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-online"></span> Online</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="badge bg-success float-right">2</div>
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                             className="rounded-circle mr-1" alt="William Harris" width="40"
-                                             height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                William Harris
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-online"></span> Online</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                             className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                             height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Sharon Lessman
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-online"></span> Online</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                             className="rounded-circle mr-1" alt="Christina Mason" width="40"
-                                             height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Christina Mason
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-offline"></span> Offline</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                                             className="rounded-circle mr-1" alt="Fiona Green" width="40" height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Fiona Green
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-offline"></span> Offline</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                             className="rounded-circle mr-1" alt="Doris Wilder" width="40" height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Doris Wilder
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-offline"></span> Offline</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                             className="rounded-circle mr-1" alt="Haley Kennedy" width="40" height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Haley Kennedy
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-offline"></span> Offline</div>
-                                            </div>
-                                    </div>
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action border-0">
-                                    <div className="d-flex align-items-start">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                             className="rounded-circle mr-1" alt="Jennifer Chang" width="40"
-                                             height="40" />
-                                            <div className="flex-grow-1 ml-3">
-                                                Jennifer Chang
-                                                <div className="small"><span
-                                                    className="fas fa-circle chat-offline"></span> Offline</div>
-                                            </div>
+                                             height="40"/>
+                                        <div className="flex-grow-1 ml-3">
+                                            Vanessa Tucker
+                                            <div className="small"><span
+                                                className="fas fa-circle chat-online"></span> Online</div>
+                                        </div>
                                     </div>
                                 </a>
 
-                                <hr className="d-block d-lg-none mt-1 mb-0" />
+                                <hr className="d-block d-lg-none mt-1 mb-0"/>
                             </div>
                             <div className="col-12 col-lg-7 col-xl-9">
                                 <div className="py-2 px-4 border-bottom d-none d-lg-block">
@@ -134,7 +66,7 @@ class Chat extends Component {
                                         <div className="position-relative">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                  className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                 height="40" />
+                                                 height="40"/>
                                         </div>
                                         <div className="flex-grow-1 pl-3">
                                             <strong>Sharon Lessman</strong>
@@ -180,8 +112,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:33 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:33 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -194,8 +126,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:34 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:34 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -208,8 +140,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:35 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:35 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -221,8 +153,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:36 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:36 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -237,8 +169,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:37 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:37 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -250,8 +182,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:38 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:38 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -264,8 +196,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:39 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:39 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -278,8 +210,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:40 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:40 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -291,8 +223,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:41 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:41 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -305,8 +237,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:42 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:42 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -321,8 +253,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
                                                      className="rounded-circle mr-1" alt="Chris Wood" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:43 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:43 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                                                 <div className="font-weight-bold mb-1">You</div>
@@ -335,8 +267,8 @@ class Chat extends Component {
                                             <div>
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
                                                      className="rounded-circle mr-1" alt="Sharon Lessman" width="40"
-                                                     height="40" />
-                                                    <div className="text-muted small text-nowrap mt-2">2:44 am</div>
+                                                     height="40"/>
+                                                <div className="text-muted small text-nowrap mt-2">2:44 am</div>
                                             </div>
                                             <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
                                                 <div className="font-weight-bold mb-1">Sharon Lessman</div>
@@ -350,8 +282,8 @@ class Chat extends Component {
 
                                 <div className="flex-grow-0 py-3 px-4 border-top">
                                     <div className="input-group">
-                                        <input type="text" className="form-control" placeholder="Type your message" />
-                                            <button className="btn btn-primary">Send</button>
+                                        <input type="text" className="form-control" placeholder="Type your message"/>
+                                        <button className="btn btn-primary">Send</button>
                                     </div>
                                 </div>
 
@@ -361,8 +293,14 @@ class Chat extends Component {
                 </div>
             </main>
 
-                )
+        )
     }
 }
 
-export default Chat
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+
+export default connect(mapStateToProps, null)(Chat);
